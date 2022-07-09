@@ -32,7 +32,7 @@ function download(url, filename, cb) {
 };
 
 function spiderLinks(currentUrl, body, nesting, cb) {
-  console.log('Entramos sincronamente');
+  console.log('spiderLinks starts');
   if (nesting === 0) {
     // Remember Zalgo from chapter 3?
     // WARNING: Why zalgo is a problem here???????
