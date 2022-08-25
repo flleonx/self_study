@@ -1,5 +1,5 @@
 import { spider } from './spider.js';
-import { TaskQueue } from './TaskQueue_v2';
+import { TaskQueue } from './taskQueue_v2.js';
 
 const url = process.argv[2];
 const nesting = Number.parseInt(process.argv[3], 10) || 1;

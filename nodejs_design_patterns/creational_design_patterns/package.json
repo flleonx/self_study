@@ -1,0 +1,12 @@
+{
+  "name": "creational_design_patterns",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "factory_pattern.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "flleonx",
+  "license": "ISC"
+}

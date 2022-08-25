@@ -64,8 +64,8 @@ export function spiderTask(url, nesting, queue, cb) {
           return cb(err);
         };
         spiderLinks(url, requestContent, nesting, queue);
-        return cb();
         console.log('Return spiderlinks');
+        return cb();
       });
     };
 
@@ -79,11 +79,12 @@ export function spiderTask(url, nesting, queue, cb) {
 
 const spidering = new Set();
 export function spider(url, nesting, queue) {
+  // Avoid race conditions
   if (spidering.has(url)) {
     return;
   }
   spidering.add(url);
   queue.pushTask((done) => {
-    spiderTask(url, nesting, queue, cb);
+    spiderTask(url, nesting, queue, done);
   });
 };
