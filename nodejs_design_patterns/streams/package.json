@@ -16,6 +16,7 @@
     "lazystream": "^1.0.1",
     "mkdirp-promise": "^5.0.1",
     "parallel-transform": "^1.2.0",
+    "pumpify": "^2.0.1",
     "split": "^1.0.1",
     "superagent": "^8.0.1"
   }
