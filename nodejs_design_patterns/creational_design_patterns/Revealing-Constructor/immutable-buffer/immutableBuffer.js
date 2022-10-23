@@ -3,7 +3,6 @@ import { Buffer } from 'buffer';
 const MODIFIER_NAMES = ['swap', 'write', 'fill'];
 
 export class ImmutableBuffer {
-
   constructor(size, executor) {
     const buffer = Buffer.alloc(size);
     const modifiers = {};

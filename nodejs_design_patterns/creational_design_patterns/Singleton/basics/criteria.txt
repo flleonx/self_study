@@ -1,0 +1,7 @@
+The purpose of the Singleton pattern is to enforce the presence of only
+one instance of a class and centralize its access. There are a few reasons for
+using a single instance across all the components of an application:
+
+1. For sharing stateful information
+2. For optimizing resource usage
+3. To synchronize access to a resource
