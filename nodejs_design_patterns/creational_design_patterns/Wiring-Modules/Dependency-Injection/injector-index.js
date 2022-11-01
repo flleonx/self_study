@@ -13,7 +13,7 @@ async function main() {
 
   const posts = await blog.getAllPosts();
 
-  if (post.length === 0) {
+  if (posts.length === 0) {
     console.log('No post avaliable. Run `node import-posts.js` to load some sample posts');
   }
 
