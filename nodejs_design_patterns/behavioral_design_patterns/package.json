@@ -13,6 +13,7 @@
   "dependencies": {
     "ini": "^3.0.1",
     "json-over-tcp-2": "^0.3.5",
-    "object-path": "^0.11.8"
+    "object-path": "^0.11.8",
+    "superagent": "^8.0.6"
   }
 }
