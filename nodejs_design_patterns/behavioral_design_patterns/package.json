@@ -14,6 +14,8 @@
     "ini": "^3.0.1",
     "json-over-tcp-2": "^0.3.5",
     "object-path": "^0.11.8",
-    "superagent": "^8.0.6"
+    "split2": "^4.1.0",
+    "superagent": "^8.0.6",
+    "zeromq": "^6.0.0-beta.16"
   }
 }
