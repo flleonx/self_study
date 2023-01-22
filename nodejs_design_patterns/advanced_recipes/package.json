@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "level": "^8.0.0",
+    "nanoid": "^4.0.0",
+    "subleveldown": "^4.1.4",
+    "superagent": "^8.0.8"
+  }
 }
