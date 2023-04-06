@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  web:
+    build: ./frontend
+    ports:
+      - 57000:57000
+    environment:
+      VITE_API_URL: http://localhost:59000
+  api:
+    build: ./backend
+    ports:
+      - 59000:59000
+    environment:
+      DB_URL: mongodb://db/compose_app
+    command: "sh ./docker-entrypoint.sh" 
+    depends_on:
+      db: 
+        condition: service_healthy
+  db:
+    image: mongo:4.0-xenial
+    ports: 
+      - 27017:27017
+    volumes:
+      - compose_app:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo db:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+volumes:
+  compose_app:
