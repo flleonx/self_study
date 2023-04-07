@@ -1,0 +1,17 @@
+{
+  "name": "functional-programming",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "qunit"
+  },
+  "dependencies": {
+    "accounting": "^0.4.1",
+    "ramda": "^0.29.0"
+  },
+  "devDependencies": {
+    "qunit": "^2.19.4"
+  }
+}
