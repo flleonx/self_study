@@ -12,9 +12,10 @@ const Left = (x) => ({
   toString: `Left(${x})`,
 });
 
+const fromNullable = (x) => (x != null ? Right(x) : Left());
+
 const findColor = (name) => {
-  const found = { red: "#ff4444", blue: "#3b5998", yellow: "#fff68f" }[name];
-  return found ? Right(found) : Left("missing");
+  fromNullable({ red: "#ff4444", blue: "#3b5998", yellow: "#fff68f" }[name]);
 };
 
 const res = findColor("red")
