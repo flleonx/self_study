@@ -94,7 +94,7 @@ export default class LRU<K, V> {
   }
 
   private trimCache(): void {
-    if (this.length < this.capacity) {
+    if (this.length <= this.capacity) {
       return;
     }
 
