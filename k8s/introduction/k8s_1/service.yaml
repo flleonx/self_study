@@ -1,0 +1,13 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-web-hello
+  namespace: default
+spec:
+  selector:
+    app: k8s-web-hello
+  type: LoadBalancer 
+  ports:
+    - port: 57000
+      targetPort: 3000

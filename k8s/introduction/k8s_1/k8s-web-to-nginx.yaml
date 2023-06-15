@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-web-to-nginx
+  namespace: default
+spec:
+  selector:
+    app: k8s-web-to-nginx
+  type: LoadBalancer
+  ports:
+    - port: 3333
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-web-to-nginx
+  namespace: default
+  labels:
+    app: k8s-web-to-nginx
+spec:
+  selector:
+    matchLabels:
+      app: k8s-web-to-nginx
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: k8s-web-to-nginx
+    spec:
+      # initContainers:
+      # Init containers are exactly like regular containers, except:
+      # - Init containers always run to completion.
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: k8s-web-to-nginx
+          image: flleonx/k8s-web-to-nginx
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          ports:
+            - containerPort: 3000
+              name: k8s-web-to-nx
