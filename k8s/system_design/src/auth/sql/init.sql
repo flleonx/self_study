@@ -1,0 +1,30 @@
+-- SET search_path = public;
+-- CREATE USER auth_user WITH PASSWORD 'auth123';
+--
+-- CREATE DATABASE auth;
+
+-- GRANT CONNECT ON DATABASE auth TO auth_user;
+-- GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO auth_user;
+-- GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO auth_user;
+-- GRANT ALL PRIVILEGES ON DATABASE auth TO auth_user;
+-- GRANT ALL PRIVILEGES ON SCHEMA public TO auth_user;
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO auth_user;
+-- GRANT ALL PRIVILEGES ON DATABASE auth TO auth_user;
+-- ALTER DEFAULT PRIVILEGES
+-- FOR USER auth_user
+-- IN SCHEMA public
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO auth_user;
+
+CREATE TABLE users (
+  id SERIAL NOT NULL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+INSERT INTO users (
+  email,
+  password
+) VALUES (
+  'flleonx@gmail.com',
+  'admin123'
+);

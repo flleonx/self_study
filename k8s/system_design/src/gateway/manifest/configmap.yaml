@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-configmap
+data:
+  APP_HOST: "0.0.0.0" 
+  APP_PORT: "8080" 
+  APP_AUTH_SERVICE_ADRRESS: "auth:5000"
+  MONGO_DB_URI: "mongodb://host.minikube.internal:27017"
