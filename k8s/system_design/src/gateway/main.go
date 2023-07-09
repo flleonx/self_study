@@ -12,15 +12,14 @@ import (
 	"strconv"
 	"time"
 
-	"gateway-server/database"
-
-	configApp "gateway-server/config/app"
-	configLogger "gateway-server/config/logger"
-
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/gridfs"
 	"go.uber.org/zap"
+
+	configApp "gateway-server/config/app"
+	configLogger "gateway-server/config/logger"
+	"gateway-server/database"
 )
 
 func loginHandler(c echo.Context) error {
@@ -52,7 +51,11 @@ func loginHandler(c echo.Context) error {
 	}
 
 	r.Header.Add("Content-Type", "application/json")
-	logger.Debug("user credentials", zap.String("email", credentials.Email), zap.String("password", credentials.Password))
+	logger.Debug(
+		"user credentials",
+		zap.String("email", credentials.Email),
+		zap.String("password", credentials.Password),
+	)
 	r.Header.Add("Authorization", fmt.Sprintf("%s:%s", credentials.Email, credentials.Password))
 	resp, err := httpClient.Do(r)
 	if err != nil {
@@ -126,7 +129,9 @@ func downloadHandler(c echo.Context, claims claimResp) error {
 
 	fileName := fmt.Sprintf("%s.mp3", fidString)
 
-	c.Response().Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", fileName))
+	c.Response().
+		Header().
+		Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", fileName))
 	c.Response().Header().Set("Content-Type", "application/octet-stream")
 	c.Response().Header().Set("Content-Length", strconv.Itoa(fileBuffer.Len()))
 
@@ -152,7 +157,8 @@ func main() {
 
 	// Start server
 	go func() {
-		if err := e.Start(fmt.Sprintf("%s:%s", cfgApp.Host, cfgApp.Port)); err != nil && err != http.ErrServerClosed {
+		if err := e.Start(fmt.Sprintf("%s:%s", cfgApp.Host, cfgApp.Port)); err != nil &&
+			err != http.ErrServerClosed {
 			logger.Fatal("Unexpected error trying to shutdown gracefully", zap.Error(err))
 		}
 	}()

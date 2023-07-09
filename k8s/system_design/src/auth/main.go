@@ -1,9 +1,6 @@
 package main
 
 import (
-	configApp "auth-server/config/app"
-	configLogger "auth-server/config/logger"
-	"auth-server/database"
 	"context"
 	"fmt"
 	"net/http"
@@ -11,6 +8,10 @@ import (
 	"os/signal"
 	"strings"
 	"time"
+
+	configApp "auth-server/config/app"
+	configLogger "auth-server/config/logger"
+	"auth-server/database"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -41,7 +42,6 @@ func loginHandler(c echo.Context) error {
 	row := db.QueryRow("SELECT email, password FROM users WHERE email = $1", email)
 
 	err := row.Scan(&user.Email, &user.Password)
-
 	if err != nil {
 		logger.Error("Error trying to get the user", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, "something happened trying to get the user")
@@ -53,7 +53,6 @@ func loginHandler(c echo.Context) error {
 	}
 
 	token, err := generateToken(user.Email, true)
-
 	if err != nil {
 		logger.Error("Error generating the token", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, "something wrong happened")
