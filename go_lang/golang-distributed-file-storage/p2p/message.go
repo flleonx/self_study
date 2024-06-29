@@ -1,8 +1,8 @@
 package p2p
 
 const (
-	IncomingMessage = 0x1
-	IncomingStream  = 0x2
+	IncomingMessage = 0x0
+	IncomingStream  = 0x1
 )
 
 // RPC represents any arbitrary data that is being sent over

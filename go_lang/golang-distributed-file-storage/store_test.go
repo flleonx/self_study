@@ -22,44 +22,46 @@ func TestPathTransformFunc(t *testing.T) {
 
 func TestStoreDeleteKey(t *testing.T) {
 	s := newStore()
+	id := generateID()
 	defer tearDown(t, s)
 
 	key := "special"
 	data := []byte("some jpg bytes")
-	_, err := s.Write(key, bytes.NewReader(data))
+	_, err := s.Write(id, key, bytes.NewReader(data))
 	assert.Nil(t, err)
 
-	ok := s.Has(key)
+	ok := s.Has(id, key)
 	assert.True(t, ok)
 
-	err = s.Delete(key)
+	err = s.Delete(id, key)
 	assert.Nil(t, err)
 }
 
 func TestStore(t *testing.T) {
 	s := newStore()
+	id := generateID()
 	defer tearDown(t, s)
 
 	for i := 0; i < 50; i++ {
 		key := fmt.Sprintf("special_%d", i)
 
 		data := []byte("some jpg bytes")
-		_, err := s.Write(key, bytes.NewReader(data))
+		_, err := s.Write(id, key, bytes.NewReader(data))
 		assert.Nil(t, err)
 
-		ok := s.Has(key)
+		ok := s.Has(id, key)
 		assert.True(t, ok)
 
-		_, r, err := s.Read(key)
+		_, r, err := s.Read(id, key)
 		assert.Nil(t, err)
 
 		b, err := io.ReadAll(r)
 		assert.Nil(t, err)
 		assert.Equal(t, b, data)
 
-		assert.Nil(t, s.Delete(key))
+		assert.Nil(t, s.Delete(id, key))
 
-		assert.False(t, s.Has(key))
+		assert.False(t, s.Has(id, key))
 	}
 }
 

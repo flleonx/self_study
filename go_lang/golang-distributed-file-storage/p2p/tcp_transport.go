@@ -141,13 +141,16 @@ func (t *TCPTransport) handleConn(conn net.Conn, outbound bool) {
 	// Read loop
 	for {
 		rpc := RPC{}
+		log.Printf("received message CCC %#v\n", string(rpc.Payload))
+		rpc.From = conn.RemoteAddr().String()
 		err = t.Decoder.Decode(conn, &rpc)
 		if err != nil {
 			fmt.Printf("TCP decode error: %s\n", err)
 			return
 		}
 
-		rpc.From = conn.RemoteAddr().String()
+		log.Printf("received message RPC %#v\n", string(rpc.Payload))
+
 		if rpc.Stream {
 			peer.wg.Add(1)
 			fmt.Printf("[%s] incoming stream, waiting...\n", conn.RemoteAddr())
