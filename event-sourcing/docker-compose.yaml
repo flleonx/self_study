@@ -1,0 +1,31 @@
+services:
+  app:
+    command: >
+      sh -c "air"
+    build:
+      context: .
+      target: build-base
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ${PWD}/:/src/
+  
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 2s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
