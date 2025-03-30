@@ -9,19 +9,39 @@ import (
 	"log"
 	"log/slog"
 	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/google/uuid"
 
 	orders "event-sourcing/internal/database/order"
+
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	slog.SetDefault(logger)
+	conn, err := amqp.Dial("amqp://guest:guest@broker:5672/")
+	defer conn.Close()
+	ch, err := conn.Channel()
+	if err != nil {
+		log.Fatal(err, "failed to open a channel")
+	}
+	defer ch.Close()
+	q, err := ch.QueueDeclare(
+		"hello", // name
+		false,   // durable
+		false,   // delete when unused
+		false,   // exclusive
+		false,   // no-wait
+		nil,     // arguments
+	)
+	if err != nil {
+		log.Fatal(err, "error creating queue")
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	config, err := configuration.LoadConfig()
 	if err != nil {
@@ -79,7 +99,18 @@ func main() {
 
 	slog.Info("LAST ORDER", slog.Any("order", order))
 
-	exit := make(chan os.Signal, 1)
-	signal.Notify(exit, syscall.SIGINT, syscall.SIGTERM)
-	<-exit
+	body := "Hello World!"
+	for {
+		err = ch.PublishWithContext(ctx,
+			"",     // exchange
+			q.Name, // routing key
+			false,  // mandatory
+			false,  // immediate
+			amqp.Publishing{
+				ContentType: "text/plain",
+				Body:        []byte(body),
+			})
+		slog.Info(fmt.Sprintf(" [x] Sent %s\n", body))
+		time.Sleep(20 * time.Second)
+	}
 }
