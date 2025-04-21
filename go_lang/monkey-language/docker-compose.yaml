@@ -1,0 +1,7 @@
+---
+services:
+  monkey:
+    image: ghcr.io/flleonx/ide:latest
+    volumes:
+      - .:/work
+    command: ["sleep", "infinity"]
