@@ -42,6 +42,8 @@ type (
 		ReturnValue Expression
 	}
 
+	// mostly valid in scripting languages. page 64
+	// x + 10;
 	ExpressionStatement struct {
 		Token      token.Token // the first token of the expression
 		Expression Expression
@@ -50,6 +52,11 @@ type (
 	IntegerLiteral struct {
 		Token token.Token
 		Value int64
+	}
+
+	Boolean struct {
+		Token token.Token
+		Value bool
 	}
 
 	PrefixExpression struct {
@@ -135,6 +142,10 @@ func (i *Identifier) String() string       { return i.Value }
 func (il *IntegerLiteral) expressionNode()      {}
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 func (il *IntegerLiteral) String() string       { return il.Token.Literal }
+
+func (b *Boolean) expressionNode()      {}
+func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
+func (b *Boolean) String() string       { return b.Token.Literal }
 
 func (pe *PrefixExpression) expressionNode()      {}
 func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
