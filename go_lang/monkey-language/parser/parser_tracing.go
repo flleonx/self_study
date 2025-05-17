@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+var enabled bool = false
 var traceLevel int = 0
 
 const traceIdentPlaceholder string = "\t"
@@ -19,6 +20,13 @@ func tracePrint(fs string) {
 
 func incIdent() { traceLevel++ }
 func decIdent() { traceLevel-- }
+
+func register(msg string) {
+	if !enabled {
+		return
+	}
+	untrace(trace(msg))
+}
 
 func trace(msg string) string {
 	incIdent()
