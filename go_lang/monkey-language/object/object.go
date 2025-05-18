@@ -3,9 +3,10 @@ package object
 import "fmt"
 
 const (
-	INTERGER_OBJ = "INTEGER"
-	BOOLEAN_OBJ  = "BOOLEAN"
-	NULL_OBJ     = "NULL"
+	INTERGER_OBJ     = "INTEGER"
+	BOOLEAN_OBJ      = "BOOLEAN"
+	NULL_OBJ         = "NULL"
+	RETURN_VALUE_OBJ = "RETURN_VALUE"
 )
 
 type (
@@ -25,6 +26,10 @@ type (
 	}
 
 	Null struct{}
+
+	ReturnValue struct {
+		Value Object
+	}
 )
 
 func (i *Integer) Type() ObjectType { return INTERGER_OBJ }
@@ -35,3 +40,6 @@ func (b *Boolean) Inspect() string  { return fmt.Sprintf("%t", b.Value) }
 
 func (n *Null) Type() ObjectType { return NULL_OBJ }
 func (n *Null) Inspect() string  { return "null" }
+
+func (rv *ReturnValue) Type() ObjectType { return RETURN_VALUE_OBJ }
+func (rv *ReturnValue) Inspect() string  { return rv.Value.Inspect() }
