@@ -15,6 +15,7 @@ const (
 	ERROR_OBJ        = "ERROR"
 	FUNCTION_OBJ     = "FUNCTION"
 	STRING_OBJ       = "STRING"
+	BUILTIN_OBJ      = "BUILTIN"
 )
 
 type (
@@ -51,6 +52,12 @@ type (
 
 	String struct {
 		Value string
+	}
+
+	BuiltinFunction func(args ...Object) Object
+
+	Builtin struct {
+		Fn BuiltinFunction
 	}
 )
 
@@ -90,3 +97,6 @@ func (s *String) Inspect() string  { return s.Value }
 
 func (e *Error) Type() ObjectType { return ERROR_OBJ }
 func (e *Error) Inspect() string  { return fmt.Sprintf("ERROR: %s", e.Message) }
+
+func (b *Builtin) Type() ObjectType { return BUILTIN_OBJ }
+func (b *Builtin) Inspect() string  { return "builtin function" }
