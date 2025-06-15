@@ -3,8 +3,9 @@ package object
 import (
 	"bytes"
 	"fmt"
-	"monkey/ast"
 	"strings"
+
+	"monkey/ast"
 )
 
 const (
@@ -16,6 +17,7 @@ const (
 	FUNCTION_OBJ     = "FUNCTION"
 	STRING_OBJ       = "STRING"
 	BUILTIN_OBJ      = "BUILTIN"
+	ARRAY_OBJ        = "ARRAY"
 )
 
 type (
@@ -59,6 +61,10 @@ type (
 	Builtin struct {
 		Fn BuiltinFunction
 	}
+
+	Array struct {
+		Elements []Object
+	}
 )
 
 func (i *Integer) Type() ObjectType { return INTERGER_OBJ }
@@ -100,3 +106,19 @@ func (e *Error) Inspect() string  { return fmt.Sprintf("ERROR: %s", e.Message) }
 
 func (b *Builtin) Type() ObjectType { return BUILTIN_OBJ }
 func (b *Builtin) Inspect() string  { return "builtin function" }
+
+func (ao *Array) Type() ObjectType { return ARRAY_OBJ }
+func (ao *Array) Inspect() string {
+	var out bytes.Buffer
+
+	elements := []string{}
+	for _, e := range ao.Elements {
+		elements = append(elements, e.Inspect())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}

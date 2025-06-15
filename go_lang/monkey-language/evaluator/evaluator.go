@@ -2,6 +2,7 @@ package evaluator
 
 import (
 	"fmt"
+
 	"monkey/ast"
 	"monkey/object"
 )
@@ -91,6 +92,13 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.StringLiteral:
 		return &object.String{Value: node.Value}
+
+	case *ast.ArrayLiteral:
+		elements := evalExpressions(node.Elements, env)
+		if len(elements) == 1 && isError(elements[0]) {
+			return elements[0]
+		}
+		return &object.Array{Elements: elements}
 	}
 
 	return nil
@@ -278,7 +286,6 @@ func applyFunction(fn object.Object, args []object.Object) object.Object {
 	default:
 		return newError("not a function: %s", fn.Type())
 	}
-
 }
 
 func extendFunctionEnv(fn *object.Function, args []object.Object) *object.Environment {
